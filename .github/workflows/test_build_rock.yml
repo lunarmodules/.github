@@ -34,10 +34,10 @@ jobs:
         with:
           luarocksVersion: ${{ matrix.luarocksVersion }}
       - name: Confirm dev rockspec(s) build
-        if: ${{ !startsWith(matrix.rockspec, 'rockspecs/') }}
+        if: ${{ !startsWith(matrix.rockspec, 'rockspecs/') && !startsWith(matrix.luarocksVersion, '2') }}
         run: |
           args="--lua-version ${{ matrix.luaVersion }}"
-          luarocks make --pack-binary-rock $args ${{ matrix.rockspec }}
+          luarocks make --pack-binary-rock $args -- ${{ matrix.rockspec }}
       - name: Confirm tagged rockspec(s) build
         if: ${{ startsWith(matrix.rockspec, 'rockspecs/') }}
         run: |
