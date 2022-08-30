@@ -33,15 +33,28 @@ jobs:
         uses: leafo/gh-actions-luarocks@v4
         with:
           luarocksVersion: ${{ matrix.luarocksVersion }}
+      - name: Monkey-patch rockspec source.url to assure testing against relevant repo fork
+        run: |
+          sed -i -e '/^\s*url/s!=.*!= "${{ github.repositoryURL }}",!' -e 's!git:!git+https:!' ${{ matrix.rockspec }}
       - name: Confirm dev rockspec(s) build
         if: ${{ !startsWith(matrix.rockspec, 'rockspecs/') && !startsWith(matrix.luarocksVersion, '2') }}
         run: |
           args="--lua-version ${{ matrix.luaVersion }}"
           luarocks make --pack-binary-rock $args -- ${{ matrix.rockspec }}
+      - name: Parse semver and check for matching tag of touched rockspec
+        id: parsetag
+        run: |
+          semver=$(rev <<< "${{ matrix.rockspec }}" | cut -d- -f2 | rev)
+          echo "::set-output name=semver::$semver"
+          tag=$(git tag | grep -Ex "v?${semver//\\./\\\\.}" ||:)
+          echo "::set-output name=tag::$tag"
+      - name: Monkey-patch rockspec source.tag in release rockspecs if tag not present
+        if: ${{ startsWith(matrix.rockspec, 'rockspecs/') && !steps.parsetag.outputs.tag }}
+        run: |
+          sed -i -e '/^\s*tag/d' -e '/^\s*branch/s!=.*!= "${{ github.ref_name }}",!' ${{ matrix.rockspec }}
       - name: Confirm tagged rockspec(s) build
         if: ${{ startsWith(matrix.rockspec, 'rockspecs/') }}
         run: |
           args="--lua-version ${{ matrix.luaVersion }}"
           set -euo pipefail
-          git tag | grep -Fxq ${{ github.ref_name}} || args+=" --branch ${{ github.ref_name }}"
           luarocks build --pack-binary-rock $args ${{ matrix.rockspec }}
