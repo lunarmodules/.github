@@ -37,7 +37,7 @@ jobs:
         run: |
           sed -i -e '/^\s*url/s!=.*!= "${{ github.repositoryURL }}",!' -e 's!git:!git+https:!' ${{ matrix.rockspec }}
       # Only needed for builders to work around https://github.com/luarocks/luarocks/issues/1521
-      - name: Install rockspec dependencies
+      - name: Install dev rockspec dependencies
         if: ${{ !startsWith(matrix.rockspec, 'rockspecs/') && !startsWith(matrix.luarocksVersion, '2') }}
         run: |
           luarocks install --only-deps ${{ matrix.rockspec }}
@@ -57,6 +57,10 @@ jobs:
         if: ${{ startsWith(matrix.rockspec, 'rockspecs/') && !steps.parsetag.outputs.tag }}
         run: |
           sed -i -e '/^\s*tag/d' -e '/^\s*branch/s!=.*!= "${{ github.ref_name }}",!' ${{ matrix.rockspec }}
+      - name: Install tagged rockspec dependencies
+        if: ${{ startsWith(matrix.rockspec, 'rockspecs/') }}
+        run: |
+          luarocks install --only-deps ${{ matrix.rockspec }}
       - name: Confirm tagged rockspec(s) build
         if: ${{ startsWith(matrix.rockspec, 'rockspecs/') }}
         run: |

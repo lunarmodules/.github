@@ -38,7 +38,7 @@ jobs:
           tag=$(git tag | grep -Ex "v?${semver//\\./\\\\.}" ||:)
           echo "::set-output name=tag::$tag"
       - name: Upload dev rockspec to luarocks
-        # Upload dev rockspecs any time they{ are touched
+        # Upload dev rockspecs any time they are touched
         if: ${{ !startsWith(matrix.rockspec, 'rockspecs/') }}
         run: |
           args="--temp-key ${{ secrets.apikey }} --force --skip-pack"
