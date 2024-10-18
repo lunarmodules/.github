@@ -35,11 +35,13 @@ jobs:
         with:
           fetch-depth: 0
       - name: Setup ‘lua’
-        uses: leafo/gh-actions-lua@v10
+        # uses: leafo/gh-actions-lua@v10
+        uses: hishamhm/gh-actions-lua@master
         with:
           luaVersion: ${{ matrix.luaVersion }}
       - name: Setup ‘luarocks’
-        uses: leafo/gh-actions-luarocks@v4
+        # uses: leafo/gh-actions-luarocks@v4
+        uses: hishamhm/gh-actions-luarocks@update-luajit
         with:
           luarocksVersion: ${{ matrix.luarocksVersion }}
       - name: Monkey-patch rockspec source.url to assure testing against relevant repo fork
