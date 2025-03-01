@@ -44,6 +44,7 @@ jobs:
           args="--temp-key ${{ secrets.apikey }} --force --skip-pack"
           luarocks upload $args -- ${{ matrix.rockspec }}
       - name: Upload release rockspec to luarocks
+        continue-on-error: true
         # Only upload stable rockspecs if the file was touched AND a matching tag exists
         if: ${{ startsWith(matrix.rockspec, 'rockspecs/') && steps.parsetag.outputs.tag }}
         run: |
