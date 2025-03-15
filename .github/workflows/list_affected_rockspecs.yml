@@ -23,7 +23,13 @@ jobs:
         with:
           fetch-depth: 0
       - id: changed-files
-        uses: tj-actions/changed-files@v40
+        # !!WARNING!! This upstream repository was compromised and **all tags**
+        # have been pointed to a recent compromized commit. This pinned hash is
+        # to get an actually old uncompromized version for now as an emergency
+        # stop gap. Eventually we should move to an uncompromised action source.
+        # c.f. https://github.com/tj-actions/changed-files/issues/2463
+        # c.f. https://www.stepsecurity.io/blog/harden-runner-detection-tj-actions-changed-files-action-is-compromised
+        uses: tj-actions/changed-files@f9480db177263c95588c5d9dae7c78f97d39242a
         with:
           since_last_remote_commit: true
           files: |
