@@ -13,6 +13,10 @@ on:
       token:
         required: true
 
+permissions:
+  contents: read
+  packages: write
+
 jobs:
   docker:
     name: Build image and push to GHRC

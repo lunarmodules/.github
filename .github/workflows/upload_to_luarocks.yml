@@ -10,6 +10,8 @@ on:
       apikey:
         required: true
 
+permissions: read-all
+
 jobs:
   upload:
     name: Build rocks and upload to LuaRocks

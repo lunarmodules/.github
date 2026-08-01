@@ -6,6 +6,8 @@ on:
       rockspecs:
         value: ${{ jobs.affected.outputs.rockspecs }}
 
+permissions: read-all
+
 jobs:
   affected:
     name: Find edited rockspecs
