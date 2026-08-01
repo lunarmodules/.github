@@ -10,6 +10,8 @@ on:
         type: boolean
         default: false
 
+permissions: read-all
+
 jobs:
   build:
     name: Test build rockspec
