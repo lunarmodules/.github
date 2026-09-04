@@ -26,7 +26,7 @@ jobs:
         with:
           fetch-depth: 0
       - name: Setup ‘lua’
-        uses: luarocks/gh-actions-lua@85e2287697275df96334743ac654241a8fd34ab3 # v13
+        uses: luarocks/gh-actions-lua@56eba09993704b908cc3c7c2753e630d18cb9696 # v14
       - name: Setup ‘luarocks’
         uses: luarocks/gh-actions-luarocks@95d2308a0aff36ad31ebadca493ed14853399842 # v7
       - name: Setup dependencies
