@@ -31,7 +31,7 @@ jobs:
         # stop gap. Eventually we should move to an uncompromised action source.
         # c.f. https://github.com/tj-actions/changed-files/issues/2463
         # c.f. https://www.stepsecurity.io/blog/harden-runner-detection-tj-actions-changed-files-action-is-compromised
-        uses: tj-actions/changed-files@934b2d2c7e653bb8c968afed5a0428617f09aa24
+        uses: tj-actions/changed-files@9c9e94395b39f2628ceed2caba849f630866e9e0
         with:
           since_last_remote_commit: true
           files: |
